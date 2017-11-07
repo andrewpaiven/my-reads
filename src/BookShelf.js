@@ -5,6 +5,9 @@ import React, {Component} from 'react'
 import Book from './Book.js'
 class BookShelf extends Component {
 
+    updateShelfOfBookShelf = (book,e)=> {
+        this.props.updateShelfOfBook(book,e.target.value)
+    }
     render() {
         return(
             <div className="bookshelf">
@@ -14,9 +17,11 @@ class BookShelf extends Component {
                         {this.props.listOfBooks.map((book)=>(
                             <li key={book.id}>
                                 <Book
+                                    myself={book}
                                     title={book.title}
                                     authors={book.authors}
                                     url={book.imageLinks.thumbnail}
+                                    updateShelfOfBook={this.updateShelfOfBookShelf}
                                 />
                             </li>
                         ))}
