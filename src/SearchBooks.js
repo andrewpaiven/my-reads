@@ -11,10 +11,14 @@ class SearchBooks extends Component {
         books: [],
     }
 
+    updateShelfOfBookShelf = (book,e)=> {
+        this.props.updateShelfOfBook(book,e.target.value)
+    }
+
     processQuery = (e) => {
         console.log("Processing query " + e.target.value)
         if(e.target.value) {
-            BooksAPI.search(e.target.value, 5).then((responseBooks) => {
+            BooksAPI.search(e.target.value, 20).then((responseBooks) => {
                 if(!responseBooks.hasOwnProperty("error")) {
                     //Protection against null values in the backend
                     let responseBooksFiltered = responseBooks.filter(book=>book.hasOwnProperty("imageLinks"))

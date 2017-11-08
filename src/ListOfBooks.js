@@ -17,8 +17,7 @@ class ListOfBooks extends Component {
     updateBookList = () => {
         console.log("Getting all books")
         BooksApi.getAll().then((books)=>{
-            console.log("Receiving promise - The books are")
-            console.log(books)
+            this.props.setAllBooks(books)
             this.setState({
                 booksReading: books.filter(book=>(book.shelf==="currentlyReading")),
                 booksToRead: books.filter(book=>(book.shelf==="wantToRead")),
@@ -75,7 +74,7 @@ class ListOfBooks extends Component {
     }
 
     componentDidMount() {
-        this.updateBookList()
+        this.props.updateBookList()
     }
 
     render() {
@@ -88,9 +87,9 @@ class ListOfBooks extends Component {
             </div>
             <div className="list-books-content">
                 <div>
-                    <BookShelf bookShelfTitle="Currently Reading" listOfBooks={this.state.booksReading} updateShelfOfBook={this.moveBook}/>
-                    <BookShelf bookShelfTitle="Want to Read" listOfBooks={this.state.booksToRead} updateShelfOfBook={this.moveBook}/>
-                    <BookShelf bookShelfTitle="Read" listOfBooks={this.state.booksRead} updateShelfOfBook={this.moveBook}/>
+                    <BookShelf bookShelfTitle="Currently Reading" listOfBooks={this.props.booksReading} updateShelfOfBook={this.props.moveBook}/>
+                    <BookShelf bookShelfTitle="Want to Read" listOfBooks={this.props.booksToRead} updateShelfOfBook={this.props.moveBook}/>
+                    <BookShelf bookShelfTitle="Read" listOfBooks={this.props.booksRead} updateShelfOfBook={this.props.moveBook}/>
                 </div>
             </div>
             <div className="open-search">

@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 import Book from './Book.js'
 class BookShelf extends Component {
 
-    updateShelfOfBookShelf = (book,e)=> {
+    updateShelfOfBook = (book,e)=> {
         this.props.updateShelfOfBook(book,e.target.value)
     }
     render() {
@@ -21,7 +21,7 @@ class BookShelf extends Component {
                                     title={book.title}
                                     authors={book.authors}
                                     url={book.imageLinks.thumbnail}
-                                    updateShelfOfBook={this.updateShelfOfBookShelf}
+                                    updateShelfOfBook={this.updateShelfOfBook}
                                 />
                             </li>
                         ))}

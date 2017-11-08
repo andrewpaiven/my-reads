@@ -3,16 +3,21 @@ import React from 'react'
 import './App.css'
 import ListOfBooks from "./ListOfBooks";
 import SearchBooks from "./SearchBooks"
+import * as BooksApi from "./BooksAPI"
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+      allBooksTracked: [],
+      booksReading: [],
+      booksToRead: [],
+      booksRead: [],
+      showSearchPage: false,
+  }
+
+  setAllBooks = (allBooksArray)=> {
+    this.setState({
+        listedBooks: allBooksArray
+    })
   }
 
   showSearchPage = () => {
@@ -27,10 +32,80 @@ class BooksApp extends React.Component {
     })
   }
 
+  updateBookList = () => {
+        console.log("Getting all books")
+        BooksApi.getAll().then((books)=>{
+            this.setState({
+                allBooksTracked: books
+            })
+            this.setState({
+                booksReading: books.filter(book=>(book.shelf==="currentlyReading")),
+                booksToRead: books.filter(book=>(book.shelf==="wantToRead")),
+                booksRead: books.filter(book=>(book.shelf==="read")),
+            })}
+        )
+    }
+
+  moveBook = (book,toShelf) => {
+        console.log("Printing stuff")
+        console.log(book)
+        switch(book.shelf) {
+            case "currentlyReading": {
+                this.setState({
+                    booksReading: this.state.booksReading.filter((b)=>(b !== book))
+                })
+                break
+            }
+            case "wantToRead":
+                this.setState({
+                    booksToRead: this.state.booksToRead.filter(b=>(b !== book))
+                })
+                break
+            case "read":
+                this.setState({
+                    booksRead: this.state.booksRead.filter((b)=>(b !== book))
+                })
+                break
+            default:
+                break
+        }
+        // Update book shelf
+        book.shelf = toShelf
+        switch(toShelf) {
+            case "currentlyReading":
+                this.setState({
+                    booksReading: this.state.booksReading.concat(book)
+                })
+                break
+            case "wantToRead":
+                this.setState({
+                    booksToRead: this.state.booksToRead.concat(book)
+                })
+                break
+            case "read":
+                this.setState({
+                    booksRead: this.state.booksRead.concat(book)
+                })
+                break
+            default:
+                break
+        }
+        BooksApi.update(book,toShelf)
+    }
+
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? <SearchBooks hideSearchPage={this.hideSearchPage}/> : <ListOfBooks showSearchPage={this.showSearchPage}/>}
+        {this.state.showSearchPage ?
+            <SearchBooks allBooksTracked={this.state.listedBooks} hideSearchPage={this.hideSearchPage}/> :
+            <ListOfBooks setAllBooks={this.setAllBooks}
+                         showSearchPage={this.showSearchPage}
+                         booksReading={this.state.booksReading}
+                         booksToRead={this.state.booksToRead}
+                         booksRead={this.state.booksRead}
+                         moveBook={this.moveBook}
+                         updateBookList={this.updateBookList}
+            />}
       </div>
     )
   }
