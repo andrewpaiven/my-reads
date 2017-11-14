@@ -11,7 +11,7 @@ class Book extends Component {
             <div className="book">
                 <div className="book-top">
                     <div className="book-cover"
-                         style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})` }}>
+                         style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})` , borderStyle: `${this.props.myself.shelf === 'none' ? 'none' : 'solid'}`}}>
                     </div>
                     <div className="book-shelf-changer">
                         <select defaultValue={this.props.myself.shelf} onChange={e=>{this.props.updateShelfOfBook(this.props.myself,e)}}>

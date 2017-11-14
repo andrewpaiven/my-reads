@@ -12,18 +12,11 @@ class BooksApp extends React.Component {
       booksReading: [],
       booksToRead: [],
       booksRead: [],
-      showSearchPage: false,
   }
 
   setAllBooks = (allBooksArray)=> {
     this.setState({
         listedBooks: allBooksArray
-    })
-  }
-
-  showSearchPage = () => {
-    this.setState({
-        showSearchPage: true
     })
   }
 

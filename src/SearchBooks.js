@@ -32,16 +32,12 @@ class SearchBooks extends Component {
                     //Check if any of the books are already being tracked
                     responseBooksFiltered = responseBooksFiltered.map((book)=> {
                         if(idsOfTrackedBooks.indexOf(book.id) >= 0) {
-                            console.log("Moving book to shelf")
+                            //Add a shelf to the book already tracked so that the menu displays correctly
                             book['shelf'] = this.props.allBooksTracked.find(trackedBook => trackedBook.id === book.id)
                         }
                         else book['shelf'] = 'none'
                         return book
                     })
-
-                    console.log("The list of filtered books is " + responseBooksFiltered)
-
-
 
                     this.setState({
                         books: responseBooksFiltered
