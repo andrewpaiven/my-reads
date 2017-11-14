@@ -85,6 +85,7 @@ class BooksApp extends React.Component {
                 break
         }
         BooksApi.update(book,toShelf)
+
     }
 
   render() {
