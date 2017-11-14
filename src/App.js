@@ -4,6 +4,7 @@ import './App.css'
 import ListOfBooks from "./ListOfBooks";
 import SearchBooks from "./SearchBooks"
 import * as BooksApi from "./BooksAPI"
+import { Route } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
@@ -96,16 +97,23 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ?
-            <SearchBooks allBooksTracked={this.state.listedBooks} hideSearchPage={this.hideSearchPage}/> :
-            <ListOfBooks setAllBooks={this.setAllBooks}
-                         showSearchPage={this.showSearchPage}
-                         booksReading={this.state.booksReading}
-                         booksToRead={this.state.booksToRead}
-                         booksRead={this.state.booksRead}
-                         moveBook={this.moveBook}
-                         updateBookList={this.updateBookList}
-            />}
+            <Route exact path="/search" render={()=>(
+                <SearchBooks allBooksTracked={this.state.allBooksTracked}
+                             hideSearchPage={this.hideSearchPage}
+                             updateShelfOfBook={this.moveBook}
+                />
+            )}/>
+            <Route exact path="/" render={()=>(
+                <ListOfBooks setAllBooks={this.setAllBooks}
+                             showSearchPage={this.showSearchPage}
+                             booksReading={this.state.booksReading}
+                             booksToRead={this.state.booksToRead}
+                             booksRead={this.state.booksRead}
+                             moveBook={this.moveBook}
+                             updateBookList={this.updateBookList}
+                />
+
+            )}/>
       </div>
     )
   }

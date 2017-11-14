@@ -5,13 +5,14 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
+import { Link } from 'react-router-dom'
 class SearchBooks extends Component {
 
     state = {
         books: [],
     }
 
-    updateShelfOfBookShelf = (book,e)=> {
+    updateShelfOfBook = (book,e)=> {
         this.props.updateShelfOfBook(book,e.target.value)
     }
 
@@ -24,6 +25,24 @@ class SearchBooks extends Component {
                     let responseBooksFiltered = responseBooks.filter(book=>book.hasOwnProperty("imageLinks"))
                         .filter(book=>book.hasOwnProperty("title"))
                         .filter(book=>book.hasOwnProperty("authors"))
+
+                    //Get IDs of tracked books to array
+                    let idsOfTrackedBooks = this.props.allBooksTracked.map((book)=> book.id)
+
+                    //Check if any of the books are already being tracked
+                    responseBooksFiltered = responseBooksFiltered.map((book)=> {
+                        if(idsOfTrackedBooks.indexOf(book.id) >= 0) {
+                            console.log("Moving book to shelf")
+                            book['shelf'] = this.props.allBooksTracked.find(trackedBook => trackedBook.id === book.id)
+                        }
+                        else book['shelf'] = 'none'
+                        return book
+                    })
+
+                    console.log("The list of filtered books is " + responseBooksFiltered)
+
+
+
                     this.setState({
                         books: responseBooksFiltered
                     })
@@ -44,7 +63,7 @@ class SearchBooks extends Component {
         return(
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={this.props.hideSearchPage}>Close</a>
+                    <Link to="/" className="close-search" onClick={this.props.hideSearchPage}>Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                          NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -67,7 +86,7 @@ class SearchBooks extends Component {
                                 title={book.title}
                                 authors={book.authors}
                                 url={book.imageLinks.thumbnail ? book.imageLinks.thumbnail : ""}
-                                updateShelfOfBook={this.updateShelfOfBookShelf}
+                                updateShelfOfBook={this.updateShelfOfBook}
                             />
                         </li>
                     ))}
