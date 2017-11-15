@@ -3,8 +3,17 @@
  */
 
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 class Book extends Component {
+
+    static propTypes = {
+        myself: PropTypes.object.isRequired,
+        title: PropTypes.string.isRequired,
+        authors: PropTypes.array.isRequired,
+        url: PropTypes.string.isRequired,
+        updateShelfOfBook: PropTypes.func.isRequired
+    }
 
     render() {
         return(

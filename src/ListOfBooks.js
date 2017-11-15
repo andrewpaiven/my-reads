@@ -6,8 +6,17 @@ import React, { Component } from 'react'
 import BookShelf from './BookShelf'
 import * as BooksApi from "./BooksAPI"
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 class ListOfBooks extends Component {
+
+    static propTypes = {
+    booksReading: PropTypes.array.isRequired,
+    booksToRead: PropTypes.array.isRequired,
+    booksRead: PropTypes.array.isRequired,
+    moveBook: PropTypes.func.isRequired,
+    updateBookList: PropTypes.func.isRequired
+    }
 
     state = {
         booksReading: [],

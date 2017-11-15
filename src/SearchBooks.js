@@ -6,7 +6,14 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
 class SearchBooks extends Component {
+
+    static propTypes = {
+        allBooksTracked: PropTypes.array.isRequired,
+        updateShelfOfBook: PropTypes.func.isRequired,
+    }
 
     state = {
         books: [],
@@ -19,7 +26,12 @@ class SearchBooks extends Component {
     processQuery = (e) => {
         console.log("Processing query " + e.target.value)
         if(e.target.value) {
-            BooksAPI.search(e.target.value, 20).then((responseBooks) => {
+
+            //Process user inputs
+            //Trim
+            let userQuery = e.target.value.trim()
+
+            BooksAPI.search(userQuery, 20).then((responseBooks) => {
                 if(!responseBooks.hasOwnProperty("error")) {
                     //Protection against null values in the backend
                     let responseBooksFiltered = responseBooks.filter(book=>book.hasOwnProperty("imageLinks"))

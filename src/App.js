@@ -1,5 +1,4 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListOfBooks from "./ListOfBooks";
 import SearchBooks from "./SearchBooks"
@@ -17,12 +16,6 @@ class BooksApp extends React.Component {
   setAllBooks = (allBooksArray)=> {
     this.setState({
         listedBooks: allBooksArray
-    })
-  }
-
-  hideSearchPage = () => {
-    this.setState({
-        showSearchPage: false
     })
   }
 
@@ -93,13 +86,11 @@ class BooksApp extends React.Component {
       <div className="app">
             <Route exact path="/search" render={()=>(
                 <SearchBooks allBooksTracked={this.state.allBooksTracked}
-                             hideSearchPage={this.hideSearchPage}
                              updateShelfOfBook={this.moveBook}
                 />
             )}/>
             <Route exact path="/" render={()=>(
                 <ListOfBooks setAllBooks={this.setAllBooks}
-                             showSearchPage={this.showSearchPage}
                              booksReading={this.state.booksReading}
                              booksToRead={this.state.booksToRead}
                              booksRead={this.state.booksRead}
