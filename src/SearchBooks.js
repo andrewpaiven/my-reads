@@ -12,19 +12,14 @@ class SearchBooks extends Component {
 
     static propTypes = {
         allBooksTracked: PropTypes.array.isRequired,
-        updateShelfOfBook: PropTypes.func.isRequired,
+        updateBookShelf: PropTypes.func.isRequired,
     }
 
     state = {
         books: [],
     }
 
-    updateShelfOfBook = (book,e)=> {
-        this.props.updateShelfOfBook(book,e.target.value)
-    }
-
     processQuery = (e) => {
-        console.log("Processing query " + e.target.value)
         if(e.target.value) {
 
             //Process user inputs
@@ -45,7 +40,7 @@ class SearchBooks extends Component {
                     responseBooksFiltered = responseBooksFiltered.map((book)=> {
                         if(idsOfTrackedBooks.indexOf(book.id) >= 0) {
                             //Add a shelf to the book already tracked so that the menu displays correctly
-                            book['shelf'] = this.props.allBooksTracked.find(trackedBook => trackedBook.id === book.id)
+                            book['shelf'] = this.props.allBooksTracked.find(trackedBook => trackedBook.id === book.id).shelf
                         }
                         else book['shelf'] = 'none'
                         return book
@@ -71,7 +66,7 @@ class SearchBooks extends Component {
         return(
             <div className="search-books">
                 <div className="search-books-bar">
-                    <Link to="/" className="close-search" onClick={this.props.hideSearchPage}>Close</Link>
+                    <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                          NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -90,11 +85,8 @@ class SearchBooks extends Component {
                     {this.state.books.map((book)=>(
                         <li key={book.id}>
                             <Book
-                                myself={book}
-                                title={book.title}
-                                authors={book.authors}
-                                url={book.imageLinks.thumbnail ? book.imageLinks.thumbnail : ""}
-                                updateShelfOfBook={this.updateShelfOfBook}
+                                book={book}
+                                updateBookShelf={this.props.updateBookShelf}
                             />
                         </li>
                     ))}
