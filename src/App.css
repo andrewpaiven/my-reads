@@ -153,6 +153,7 @@ body, .app {
   background-position: center;
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  z-index:2;
 }
 .book-shelf-changer select {
   width: 100%;
@@ -170,5 +171,35 @@ body, .app {
 .book-cover-title {
   padding: 20px 10px 0;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.6em;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  background-color: #60ac5d;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 2px;
+  padding: 5px 0;
+  font-size: 0.65em;
+  bottom:60px;
+  padding-left:5px;
+  right:0px;
+  background-color: #60ac5d;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
