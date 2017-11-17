@@ -9,7 +9,7 @@ import Modal from 'simple-react-modal'
  *  - book: Book object to be represented by this component
  *  - updateBookShelf: Handler function to move book to a different shelf
  * @State:
- *  - No state
+ *  - showModal: controls the display of the book modal
  */
 
 class Book extends Component {
@@ -20,15 +20,15 @@ class Book extends Component {
     }
 
     state = {
-        show: false,
+        showModal: false,
     }
 
     showBookModal = ()=>{
-        this.setState({show: true})
+        this.setState({showModal: true})
     }
 
     closeBookModal = ()=>{
-        this.setState({show: false})
+        this.setState({showModal: false})
     }
 
     render() {
@@ -64,7 +64,7 @@ class Book extends Component {
                 </div>
                 <div className="book-title">{this.props.book.title}</div>
                 <div className="book-authors">{this.props.book.authors}</div>
-                <Modal show={this.state.show}
+                <Modal show={this.state.showModal}
                        onClose={this.closeBookModal}
                        containerStyle={{width: '600px'}}
                 >
